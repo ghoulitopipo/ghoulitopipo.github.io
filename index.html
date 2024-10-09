@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeux en JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Choisissez un jeu</h1>
+    <div id="menu">
+        <button onclick="loadGame('snake')">Snake</button>
+        <button onclick="loadGame('puissance4')">Puissance 4</button>
+        <button onclick="loadGame('memory')">Memory</button>
+    </div>
+    <div id="game-container"></div>
+
+    <script>
+        function loadGame(game) {
+            const gameContainer = document.getElementById('game-container');
+            gameContainer.innerHTML = ''; // Reset container
+
+            const script = document.createElement('script');
+            script.src = game + '.js';  // Charge le fichier JavaScript du jeu
+            gameContainer.appendChild(script);
+        }
+    </script>
+</body>
+</html>
