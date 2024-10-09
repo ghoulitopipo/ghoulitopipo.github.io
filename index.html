@@ -18,11 +18,14 @@
     <script>
         function loadGame(game) {
             const gameContainer = document.getElementById('game-container');
-            gameContainer.innerHTML = ''; // Reset container
+            gameContainer.innerHTML = ''; // Réinitialise le conteneur
 
-            const script = document.createElement('script');
-            script.src = game + '.js';  // Charge le fichier JavaScript du jeu
-            gameContainer.appendChild(script);
+            // Utilisation de setTimeout pour différer l'exécution du script après le DOM update
+            setTimeout(() => {
+                const script = document.createElement('script');
+                script.src = game + '.js';  // Charge le fichier JavaScript du jeu
+                document.body.appendChild(script);
+            }, 100);  // Délai court de 100 ms
         }
     </script>
 </body>
