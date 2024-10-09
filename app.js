@@ -18,9 +18,17 @@ light.position.set(0, 50, 50).normalize();
 scene.add(light);
 
 // Position de la caméra
-camera.position.y = 5; // Hauteur de la caméra
+camera.position.set(0, 5, 10); // Position de la caméra initiale
 
-// Variables pour les contrôles
+// Ajout des contrôles de la souris (OrbitControls)
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; // Ajoute un effet de "glissement" lors des mouvements
+controls.dampingFactor = 0.05; // Ajuste la sensibilité du glissement
+controls.screenSpacePanning = false; // Empêche le décalage en "glissant" la scène
+controls.minDistance = 5; // Distance minimale de la caméra par rapport à la scène
+controls.maxDistance = 100; // Distance maximale de la caméra par rapport à la scène
+
+// Variables pour les contrôles clavier
 let moveForward = false;
 let moveBackward = false;
 let moveLeft = false;
@@ -50,6 +58,8 @@ function animate() {
     if (moveBackward) camera.position.z += speed;
     if (moveLeft) camera.position.x -= speed;
     if (moveRight) camera.position.x += speed;
+
+    controls.update(); // Mise à jour des contrôles de la souris
 
     renderer.render(scene, camera);
 }
