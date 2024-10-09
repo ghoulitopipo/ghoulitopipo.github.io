@@ -4,7 +4,7 @@ document.getElementById('game-container').innerHTML = `
     <p id="status"></p>
 `;
 
-const cardValues = ['🍎', '🍌', '🍇', '🍒', '🍍', '🍓', '🍉', '🥝']; // Paires d'émojis fruits
+const cardValues = ['99', '88', '77', '66', '55', '44', '33', '22']; // Paires d'émojis fruits
 let cards = [...cardValues, ...cardValues]; // Duplique les cartes pour obtenir des paires
 let firstCard = null;
 let secondCard = null;
