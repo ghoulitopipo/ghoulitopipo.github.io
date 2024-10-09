@@ -1,5 +1,3 @@
-// Importation de Three.js (si CDN est utilisé, on peut omettre les importations ici)
-
 // Variables pour la scène 3D
 let scene, camera, renderer;
 let player, floor;
@@ -19,9 +17,11 @@ const clock = new THREE.Clock(); // Pour gérer le temps
 function init() {
     scene = new THREE.Scene();
 
-    // Caméra
+    // Caméra - ajustement pour simuler la vision humaine
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.y = 1.6;  // Hauteur du joueur
+    camera.fov = 90;  // Champ de vision modifié pour 90 degrés
+    camera.updateProjectionMatrix();  // Met à jour la matrice de projection après changement de FOV
+    camera.position.y = 1.6;  // Hauteur de la caméra, à environ 1,6 mètres (hauteur moyenne des yeux humains)
 
     // Rendu
     renderer = new THREE.WebGLRenderer();
