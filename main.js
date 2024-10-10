@@ -68,8 +68,8 @@ function init() {
 function onMouseMove(event) {
     if (isMouseLocked) {
 
-        var movementY = (event.movementY * Math.PI * cameraSensitivity) / 180;
-        var movementX = (event.movementX * Math.PI * cameraSensitivity) / 180;
+        var movementY = (event.movementY * Math.PI * 1) / 180;
+        var movementX = (event.movementX * Math.PI * 1) / 180;
 
         camera.rotateOnWorldAxis(new THREE.Vector3(0, 1,0), THREE.Math.degToRad(50*movementX));
         camera.rotateX(movementY);
