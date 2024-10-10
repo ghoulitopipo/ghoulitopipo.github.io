@@ -72,6 +72,7 @@ function onMouseMove(event) {
 
         // Limiter la rotation sur l'axe vertical
         camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+        camera.rotation.y = Math.max(-Math.PI, Math.min(Math.PI, camera.rotation.y));
     }
 }
 
