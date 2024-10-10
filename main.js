@@ -1,50 +1,25 @@
-// main.js
 import * as THREE from 'three';
-import { createCamera } from './camera.js';
-import { createScene } from './scene.js';
 
-let camera, scene, renderer, controls;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-// Initialisation du jeu
-function init() {
-    // Création du renderer
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true; // Activer les ombres
-    document.body.appendChild(renderer.domElement);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setAnimationLoop( animate );
+document.body.appendChild( renderer.domElement );
 
-    // Création de la scène
-    scene = createScene();
+const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+const cube = new THREE.Mesh( geometry, material );
+scene.add( cube );
 
-    // Création de la caméra et des contrôles
-    const { camera: cam, controls: ctrl } = createCamera(renderer);
-    camera = cam;
-    controls = ctrl;
+camera.position.z = 5;
 
-    // Gérer le redimensionnement de la fenêtre
-    window.addEventListener('resize', onWindowResize, false);
-
-    // Lancer la boucle d'animation
-    animate();
-}
-
-// Fonction pour ajuster la taille de la fenêtre
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-// Boucle d'animation
 function animate() {
-    requestAnimationFrame(animate);
 
-    // Mise à jour des contrôles
-    controls.update(1); // Le paramètre ici correspond à deltaTime
+	cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;
 
-    // Rendu de la scène
-    renderer.render(scene, camera);
+	renderer.render( scene, camera );
+
 }
-
-// Appel de la fonction d'initialisation
-init();
