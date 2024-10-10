@@ -67,12 +67,19 @@ function init() {
 // Gestion de la souris pour bouger la caméra
 function onMouseMove(event) {
     if (isMouseLocked) {
-        camera.rotation.y -= event.movementX * 0.002;
-        camera.rotation.x -= event.movementY * 0.002;
+
+        var movementY = (event.movementY * Math.PI * cameraSensitivity) / 180;
+        var movementX = (event.movementX * Math.PI * cameraSensitivity) / 180;
+
+        camera.rotateOnWorldAxis(new THREE.Vector3(0, 1,0), THREE.Math.degToRad(50*movementX));
+        camera.rotateX(movementY);
+        
+        //camera.rotation.y -= event.movementX * 0.002;
+        //camera.rotation.x -= event.movementY * 0.002;
 
         // Limiter la rotation sur l'axe vertical
-        camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
-        camera.rotation.y = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.y));
+        //camera.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.x));
+        //camera.rotation.y = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, camera.rotation.y));
     }
 }
 
