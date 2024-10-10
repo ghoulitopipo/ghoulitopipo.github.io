@@ -6,11 +6,31 @@ let scene, camera, renderer;
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
 let velocity = new THREE.Vector3();
 let direction = new THREE.Vector3();
-const speed = 0.1; // Vitesse de déplacement
+const normalSpeed = 0.1; // Vitesse de déplacement normale
+let speed = normalSpeed; // Vitesse de déplacement qui change selon le mode
 
 // Variables pour le contrôle de la souris
 let pitchObject, yawObject;
 let mouseSensitivity = 0.002; // Sensibilité de la souris
+
+// Variables pour le crouch (se baisser)
+let isCrouching = false;
+let standingHeight = 1.6;   // Hauteur normale
+let crouchingHeight = 0.8;  // Hauteur quand on est baissé
+let currentHeight = standingHeight; // Hauteur actuelle de la caméra
+let crouchSpeed = 0.05; // Vitesse à laquelle la caméra se baisse/se relève
+
+// Facteur de réduction de la vitesse quand accroupi (66% de réduction)
+const crouchSpeedFactor = 0.34; 
+
+// Variables pour le mouvement de course (oscillation de la caméra)
+let runningTime = 0; // Pour calculer l'oscillation en fonction du temps
+const oscillationSpeed = 10; // Fréquence du mouvement de tête en courant
+const oscillationMagnitude = 0.02; // Amplitude de l'oscillation (verticale et horizontale)
+
+// Variables pour l'effet de flou de mouvement (Motion Blur)
+let motionBlurEffect = false;
+let previousPosition = new THREE.Vector3(); // Stocker la position précédente pour calculer la vitesse
 
 // Fonction d'initialisation
 function init() {
@@ -26,7 +46,7 @@ function init() {
     pitchObject.add(camera);
     
     yawObject = new THREE.Object3D();
-    yawObject.position.set(0, 1.6, 5);  // Hauteur caméra
+    yawObject.position.set(0, standingHeight, 5);  // Hauteur caméra initiale
     yawObject.add(pitchObject);
     
     scene.add(yawObject); // Ajouter l'objet racine à la scène
@@ -86,6 +106,10 @@ function onKeyDown(event) {
         case 'ArrowRight':
             moveLeft = true;
             break;
+        case 'ShiftLeft':
+            isCrouching = true;
+            speed = normalSpeed * crouchSpeedFactor;  // Réduire la vitesse quand accroupi
+            break;
     }
 }
 
@@ -107,6 +131,10 @@ function onKeyUp(event) {
         case 'KeyD':
         case 'ArrowRight':
             moveLeft = false;
+            break;
+        case 'ShiftLeft':
+            isCrouching = false;
+            speed = normalSpeed;  // Revenir à la vitesse normale
             break;
     }
 }
@@ -132,6 +160,33 @@ function onPointerLockChange() {
     }
 }
 
+// Fonction pour ajouter l'oscillation de la caméra (simulation du mouvement de course)
+function applyRunningEffect() {
+    if (!isCrouching && (moveForward || moveBackward || moveLeft || moveRight)) {
+        runningTime += oscillationSpeed * 0.01;
+        const oscillationY = Math.sin(runningTime) * oscillationMagnitude; // Mouvement vertical
+        const oscillationX = Math.cos(runningTime * 2) * oscillationMagnitude * 0.5; // Mouvement latéral
+        pitchObject.position.y = oscillationY; // Appliquer le mouvement à la caméra
+        pitchObject.position.x = oscillationX;
+    } else {
+        pitchObject.position.set(0, 0, 0); // Réinitialiser la position de la caméra si on ne bouge pas
+    }
+}
+
+// Fonction pour appliquer un flou de mouvement (Motion Blur)
+function applyMotionBlur() {
+    const playerSpeed = yawObject.position.distanceTo(previousPosition); // Calculer la vitesse
+    if (!isCrouching && playerSpeed > 0.1) {
+        motionBlurEffect = true;
+        // Appliquer un flou (exemple basique, ajuster selon la performance désirée)
+        renderer.domElement.style.filter = `blur(${playerSpeed * 5}px)`; // Le flou dépend de la vitesse
+    } else {
+        motionBlurEffect = false;
+        renderer.domElement.style.filter = 'none'; // Pas de flou si on est accroupi ou si on bouge lentement
+    }
+    previousPosition.copy(yawObject.position); // Mettre à jour la position précédente
+}
+
 // Boucle d'animation pour mettre à jour la scène à chaque frame
 function animate() {
     requestAnimationFrame(animate);
@@ -150,6 +205,22 @@ function animate() {
     
     // Décélération (friction)
     velocity.multiplyScalar(0.9);
+
+    // Gérer le crouch progressif
+    if (isCrouching) {
+        currentHeight = Math.max(crouchingHeight, currentHeight - crouchSpeed);  // Réduire la hauteur progressivement
+    } else {
+        currentHeight = Math.min(standingHeight, currentHeight + crouchSpeed);  // Remonter progressivement
+    }
+
+    // Mettre à jour la position de la caméra en fonction de la hauteur actuelle
+    yawObject.position.y = currentHeight;
+
+    // Appliquer l'effet de course (oscillation de la caméra)
+    applyRunningEffect();
+
+    // Appliquer l'effet de flou de mouvement
+    applyMotionBlur();
 
     renderer.render(scene, camera);
 }
