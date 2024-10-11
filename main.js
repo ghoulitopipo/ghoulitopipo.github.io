@@ -6,7 +6,7 @@ let scene, camera, renderer;
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
 let velocity = new THREE.Vector3();
 let direction = new THREE.Vector3();
-const normalSpeed = 5.0; // Vitesse de déplacement normale
+const normalSpeed = 0.1; // Vitesse de déplacement normale
 let speed = normalSpeed; // Vitesse de déplacement qui change selon le mode
 
 // Variables pour le contrôle de la souris
@@ -15,8 +15,8 @@ let mouseSensitivity = 0.002; // Sensibilité de la souris
 
 // Variables pour le crouch (se baisser)
 let isCrouching = false;
-let standingHeight = 1.6;   // Hauteur normale
-let crouchingHeight = 0.8;  // Hauteur quand on est baissé
+let standingHeight = 1.85;   // Hauteur normale
+let crouchingHeight = 0.925;  // Hauteur quand on est baissé
 let currentHeight = standingHeight; // Hauteur actuelle de la caméra
 let crouchSpeed = 0.05; // Vitesse à laquelle la caméra se baisse/se relève
 
@@ -95,16 +95,16 @@ function onKeyDown(event) {
         case 'ArrowUp':
             moveForward = true;
             break;
-        case 'KeyA':
-        case 'ArrowLeft':
+        case 'KeyD':
+        case 'ArrowRight':
             moveLeft = true;
             break;
         case 'KeyS':
         case 'ArrowDown':
             moveBackward = true;
             break;
-        case 'KeyD':
-        case 'ArrowRight':
+        case 'KeyA':
+        case 'ArrowLeft':
             moveRight = true;
             break;
         case 'ShiftLeft':
@@ -121,16 +121,16 @@ function onKeyUp(event) {
         case 'ArrowUp':
             moveForward = false;
             break;
-        case 'KeyA':
-        case 'ArrowLeft':
+        case 'KeyD':
+        case 'ArrowRight':
             moveLeft = false;
             break;
         case 'KeyS':
         case 'ArrowDown':
             moveBackward = false;
             break;
-        case 'KeyD':
-        case 'ArrowRight':
+        case 'KeyA':
+        case 'ArrowLeft':
             moveRight = false;
             break;
         case 'ShiftLeft':
