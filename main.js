@@ -6,7 +6,7 @@ let scene, camera, renderer;
 let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
 let velocity = new THREE.Vector3();
 let direction = new THREE.Vector3();
-const normalSpeed = 0.1; // Vitesse de déplacement normale
+const normalSpeed = 5.0; // Vitesse de déplacement normale
 let speed = normalSpeed; // Vitesse de déplacement qui change selon le mode
 
 // Variables pour le contrôle de la souris
@@ -25,8 +25,9 @@ const crouchSpeedFactor = 0.34;
 
 // Variables pour le mouvement de course (oscillation de la caméra)
 let runningTime = 0; // Pour calculer l'oscillation en fonction du temps
-const oscillationSpeed = 10; // Fréquence du mouvement de tête en courant
-const oscillationMagnitude = 0.02; // Amplitude de l'oscillation (verticale et horizontale)
+const oscillationSpeed = 6; // Fréquence du mouvement de tête en courant
+const oscillationMagnitudeY = 0.02; // Amplitude de l'oscillation verticale
+const oscillationMagnitudeX = 0.01; // Amplitude de l'oscillation latérale
 
 // Variables pour l'effet de flou de mouvement (Motion Blur)
 let motionBlurEffect = false;
@@ -96,7 +97,7 @@ function onKeyDown(event) {
             break;
         case 'KeyA':
         case 'ArrowLeft':
-            moveRight = true;
+            moveLeft = true;
             break;
         case 'KeyS':
         case 'ArrowDown':
@@ -104,7 +105,7 @@ function onKeyDown(event) {
             break;
         case 'KeyD':
         case 'ArrowRight':
-            moveLeft = true;
+            moveRight = true;
             break;
         case 'ShiftLeft':
             isCrouching = true;
@@ -122,7 +123,7 @@ function onKeyUp(event) {
             break;
         case 'KeyA':
         case 'ArrowLeft':
-            moveRight = false;
+            moveLeft = false;
             break;
         case 'KeyS':
         case 'ArrowDown':
@@ -130,7 +131,7 @@ function onKeyUp(event) {
             break;
         case 'KeyD':
         case 'ArrowRight':
-            moveLeft = false;
+            moveRight = false;
             break;
         case 'ShiftLeft':
             isCrouching = false;
@@ -163,13 +164,14 @@ function onPointerLockChange() {
 // Fonction pour ajouter l'oscillation de la caméra (simulation du mouvement de course)
 function applyRunningEffect() {
     if (!isCrouching && (moveForward || moveBackward || moveLeft || moveRight)) {
-        runningTime += oscillationSpeed * 0.01;
-        const oscillationY = Math.sin(runningTime) * oscillationMagnitude; // Mouvement vertical
-        const oscillationX = Math.cos(runningTime * 2) * oscillationMagnitude * 0.5; // Mouvement latéral
-        pitchObject.position.y = oscillationY; // Appliquer le mouvement à la caméra
-        pitchObject.position.x = oscillationX;
+        runningTime += oscillationSpeed * 0.1; // Augmenter le temps pour l'oscillation
+        const oscillationY = Math.sin(runningTime) * oscillationMagnitudeY; // Mouvement vertical
+        const oscillationX = Math.cos(runningTime) * oscillationMagnitudeX; // Mouvement latéral
+        yawObject.position.y = currentHeight + oscillationY; // Appliquer le mouvement vertical
+        yawObject.position.x += oscillationX; // Appliquer le mouvement latéral
     } else {
-        pitchObject.position.set(0, 0, 0); // Réinitialiser la position de la caméra si on ne bouge pas
+        // Réinitialiser la position en cas d'arrêt
+        yawObject.position.set(yawObject.position.x, currentHeight, yawObject.position.z);
     }
 }
 
