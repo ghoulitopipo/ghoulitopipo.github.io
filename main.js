@@ -64,10 +64,20 @@ function init() {
     floor.rotation.x = -Math.PI / 2; // Le sol doit être horizontal
     scene.add(floor);
 
-    const geometry = new THREE.BoxGeometry( 1, 1, 1 ); 
-    const material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-    const cube = new THREE.Mesh( geometry, material ); 
-    scene.add( cube );
+    
+    var object = new THREE.Mesh(
+			new THREE.BoxGeometry( 2, 2, 2 ),
+      [
+    	    new THREE.MeshLambertMaterial( {color: 0x0000FF}),
+    	    new THREE.MeshLambertMaterial( {color: 0xFF0000}),
+    	    new THREE.MeshLambertMaterial( {color: 0x00FF00}),
+    	    new THREE.MeshLambertMaterial( {color: 0xFF00FF}),
+    	    new THREE.MeshLambertMaterial( {color: 0xFFFF00}),
+    	    new THREE.MeshLambertMaterial( {color: 0x00FFFF}),
+      ]
+    );	
+	scene.add( object );
+
 
     // Ajouter une lumière pour l'ambiance
     const ambientLight = new THREE.AmbientLight(0x404040, 1); // lumière faible
