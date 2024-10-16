@@ -64,6 +64,11 @@ function init() {
     floor.rotation.x = -Math.PI / 2; // Le sol doit être horizontal
     scene.add(floor);
 
+    const geometry = new THREE.BoxGeometry( 1, 1, 1 ); 
+    const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} ); 
+    const cube = new THREE.Mesh( geometry, material ); 
+    scene.add( cube );
+
     // Ajouter une lumière pour l'ambiance
     const ambientLight = new THREE.AmbientLight(0x404040, 1); // lumière faible
     scene.add(ambientLight);
