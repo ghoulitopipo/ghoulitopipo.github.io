@@ -59,13 +59,13 @@ function init() {
 
     // Ajouter un sol
     const floorGeometry = new THREE.PlaneGeometry(100, 100);
-    const floorMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFFFF });
+    const floorMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.rotation.x = -Math.PI / 2; // Le sol doit être horizontal
     scene.add(floor);
 
     const geometry = new THREE.BoxGeometry( 1, 1, 1 ); 
-    const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} ); 
+    const material = new THREE.MeshBasicMaterial( {color: 0xffffff} ); 
     const cube = new THREE.Mesh( geometry, material ); 
     scene.add( cube );
 
