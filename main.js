@@ -70,7 +70,7 @@ function init() {
       [
     	    new THREE.MeshLambertMaterial( {color: 0x0000FF}),
     	    new THREE.MeshLambertMaterial( {color: 0xFF0000}),
-    	    new THREE.MeshLambertMaterial( {color: 0x00FF00}),
+    	    new THREE.MeshLambertMaterial( {color: 0x000000}),
     	    new THREE.MeshLambertMaterial( {color: 0xFF00FF}),
     	    new THREE.MeshLambertMaterial( {color: 0xFFFF00}),
     	    new THREE.MeshLambertMaterial( {color: 0x00FFFF}),
