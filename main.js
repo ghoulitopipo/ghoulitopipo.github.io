@@ -37,7 +37,7 @@ let previousPosition = new THREE.Vector3(); // Stocker la position précédente 
 function init() {
     // Créer la scène
     scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2( 0xcccccc, 0.5 );
+    scene.fog = new THREE.FogExp2( 0xcccccc, 0.2 );
     scene.background = new THREE.Color(0x000000); // Fond noir pour l'ambiance horreur
 
     // Créer la caméra (vue à la première personne)
@@ -71,13 +71,28 @@ function init() {
       [
     	    new THREE.MeshLambertMaterial( {color: 0x0000FF}),
     	    new THREE.MeshLambertMaterial( {color: 0xFF0000}),
-    	    new THREE.MeshLambertMaterial( {color: 0x000000}),
+    	    new THREE.MeshLambertMaterial( {color: 0x00F0F0}),
     	    new THREE.MeshLambertMaterial( {color: 0xFF00FF}),
     	    new THREE.MeshLambertMaterial( {color: 0xFFFF00}),
     	    new THREE.MeshLambertMaterial( {color: 0x00FFFF}),
       ]
     );	
+
+    var object2 = new THREE.Mesh(
+			new THREE.BoxGeometry( 1, 0.1, 25 ),
+      [
+    	    new THREE.MeshLambertMaterial( {color: 0x0000FF}),
+    	    new THREE.MeshLambertMaterial( {color: 0xFF0000}),
+    	    new THREE.MeshLambertMaterial( {color: 0x00F0F0}),
+    	    new THREE.MeshLambertMaterial( {color: 0xFF00FF}),
+    	    new THREE.MeshLambertMaterial( {color: 0xFFFF00}),
+    	    new THREE.MeshLambertMaterial( {color: 0x000000}),
+      ]
+    );
+  object.translateZ( -25 );
+  object2.translateZ( -12.5 );
 	scene.add( object );
+  scene.add( object2 );
 
 
     // Ajouter une lumière pour l'ambiance
@@ -173,7 +188,7 @@ function onMouseMove(event) {
 // Gestion du changement d'état du verrouillage du pointeur
 function onPointerLockChange() {
     if (document.pointerLockElement !== document.body) {
-        console.log('Le pointeur a été libéré');
+        console.log('free');
     }
 }
 
