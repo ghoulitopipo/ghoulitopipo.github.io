@@ -37,7 +37,7 @@ let previousPosition = new THREE.Vector3(); // Stocker la position précédente 
 function init() {
     // Créer la scène
     scene = new THREE.Scene();
-    scene.fog = new THREE.Fog( 0xcccccc, 10, 15 );
+    scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
     scene.background = new THREE.Color(0x000000); // Fond noir pour l'ambiance horreur
 
     // Créer la caméra (vue à la première personne)
