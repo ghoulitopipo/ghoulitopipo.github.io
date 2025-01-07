@@ -89,10 +89,10 @@ function init() {
     	    new THREE.MeshLambertMaterial( {color: 0x000000}),
       ]
     );
-  object.translateZ( -25 );
-  object2.translateZ( -12.5 );
-	scene.add( object );
-  scene.add( object2 );
+    object.translateZ( -25 );
+    object2.translateZ( -12.5 );
+    scene.add( object );
+    scene.add( object2 );
 
 
     // Ajouter une lumière pour l'ambiance
