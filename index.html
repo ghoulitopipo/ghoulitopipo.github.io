@@ -1,7 +1,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Mon Site 3D</title>
+  <title>Portfolio</title>
   <link rel="stylesheet" href="style.css">
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
@@ -11,32 +11,66 @@
       <li><a href="#" data-section="accueil">Accueil</a></li>
       <li><a href="#" data-section="projets">Projets</a></li>
       <li><a href="#" data-section="contact">Contact</a></li>
+      <li><a href="#" data-section="jeux">Jeux vidéo</a></li>
     </ul>
   </nav>
 
   <main>
     <section id="accueil" class="active">
-      <h1>Bienvenue sur ma page d'accueil 3D</h1>
+      <h1>Bienvenue sur mon site web</h1>
       <model-viewer 
-        src="https://raw.githubusercontent.com/ghoulitopipo/ghoulitopipo.github.io/main/model.glb"
+        src="model.glb"
         alt="Modèle 3D"
         auto-rotate
         camera-controls
+        disable-zoom
         style="width: 100%; height: 500px;">
       </model-viewer>
     </section>
 
     <section id="projets">
       <h1>Mes projets</h1>
-      <p>Voici quelques projets 3D, web ou autres.</p>
+      <p>Liste des projets que j'ai réalisé (projet perso et scolaires).</p>
     </section>
 
     <section id="contact">
       <h1>Contact</h1>
-      <p>Tu peux me contacter à monadresse@mail.com</p>
+      <p>Voici une liste des moyens pour me contacter :</p>
+      <a href="https://mail.google.com/mail/?view=cm&to=lilian.laure@gmail.com" target="_blank">Envoyer un mail</a>
+    </section>
+
+    <section id="jeux">
+      <h1>Mon avis sur ces jeux</h1>
+      <ul id="liste-jeux">
+        <li data-jeu="elden-ring">
+          <img src="posters/elden_ring.jpg" alt="Elden Ring" class="poster-jeu">
+          <div class="nom-jeu">Elden Ring</div>
+        </li>
+        <li data-jeu="hades">
+          <img src="posters/hades.jpg" alt="Hades" class="poster-jeu">
+          <div class="nom-jeu">Hades</div>
+        </li>
+        <li data-jeu="zeldatotk">
+          <img src="posters/zelda_totk.jpg" alt="Zelda: Tears of the Kingdom" class="poster-jeu">
+          <div class="nom-jeu">Zelda: Tears of the Kingdom</div>
+        </li>
+      </ul>
+      <div id="avis-jeu" style="display: none;">
+        <h2 id="titre-jeu"></h2>
+        <p id="texte-avis"></p>
+        <p><strong>Note : <span id="note-jeu"></span>/10</strong></p>
+        <button id="retour-jeux">← Retour à la liste</button>
+        <model-viewer 
+        src="model.glb"
+        alt="Modèle 3D"
+        camera-controls
+        disable-zoom
+        autoplay
+        style="width: 100%; height: 500px;">
+      </model-viewer>
+      </div>
     </section>
   </main>
 
   <script src="script.js"></script>
 </body>
-</html>
